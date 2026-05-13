@@ -67,13 +67,13 @@
         <button class="nbtn" data-page="binary"><i class="fa-solid fa-chart-simple"></i> Binary</button>
         <button class="nbtn" data-page="market"><i class="fa-solid fa-globe"></i> Market</button>
         <button class="nbtn" data-page="tools"><i class="fa-solid fa-toolbox"></i> Tools</button>
-        <button class="nbtn" data-page="community"><i class="fa-solid fa-users"></i> Community</button>
       </nav>
       <div class="nav-acts">
         <button class="na-btn na-sub" id="navSubscribeBtn"><i class="fa-solid fa-crown"></i> Subscribe</button>
         <button class="na-btn" id="navVideoCourseBtn" style="background:rgba(240,180,41,0.1);border-color:rgba(240,180,41,0.28);color:var(--gold);"><i class="fa-solid fa-play-circle"></i> Video Course</button>
         <button class="na-btn" id="navContactBtn"><i class="fa-solid fa-envelope"></i></button>
         <button class="na-btn" data-page="profile"><i class="fa-solid fa-circle-user"></i></button>
+        <button class="na-btn" id="logoutBtn" onclick="doLogout()" title="Logout" style="color:var(--red,#e74c3c);border-color:rgba(231,76,60,0.3);"><i class="fa-solid fa-right-from-bracket"></i></button>
         <button class="na-btn" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
         <button class="na-ham" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
       </div>
@@ -85,6 +85,11 @@
   <div class="mob-drawer" id="mobDrawer">
     <div class="mob-hd"><span>Navigation</span><button id="closeMobNav"><i class="fa-solid fa-xmark"></i></button></div>
     <div class="mob-btns" id="mobNavBtns"></div>
+    <div style="padding:12px 16px;border-top:1px solid rgba(255,255,255,0.08);margin-top:8px;">
+      <button onclick="doLogout()" style="width:100%;padding:10px;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);border-radius:8px;color:#e74c3c;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
   </div>
 
   <main>
@@ -93,13 +98,23 @@
     <section id="page-home" class="page-section active">
       <div class="home-grid">
         <div class="hero">
-          <span class="hero-eyebrow"><i class="fa-solid fa-chart-line"></i> PAND ACADEMY</span>
+          <div class="hero-grid-bg"></div>
+          <span class="hero-eyebrow"><i class="fa-solid fa-chart-line"></i> PAND ACADEMY — Professional Trading Education</span>
           <h1><span id="heroText">Master the Markets</span><span class="hero-cursor"></span></h1>
-          <p class="hero-desc">A professional academy built to teach market structure, smart money concepts, risk management, and professional trading mindset — with live charts and real working tools. From beginner to advanced.</p>
+          <p class="hero-desc">Institutional-grade trading education — market structure, Smart Money Concepts, disciplined risk management, and professional trader psychology. Live interactive charts and precision tools included. Built for serious traders at every level.</p>
           <div class="hero-btns">
-            <button class="hbtn hbtn-p" data-page="academy"><i class="fa-solid fa-rocket"></i> Start Learning</button>
-            <button class="hbtn hbtn-s" data-page="market"><i class="fa-solid fa-chart-bar"></i> Live Market</button>
-            <button class="hbtn hbtn-a" data-page="tools"><i class="fa-solid fa-toolbox"></i> Trading Tools</button>
+            <button class="hbtn hbtn-p" data-page="academy"><i class="fa-solid fa-rocket"></i> Begin Your Education</button>
+            <button class="hbtn hbtn-s" data-page="market"><i class="fa-solid fa-chart-bar"></i> Live Market Data</button>
+            <button class="hbtn hbtn-a" data-page="tools"><i class="fa-solid fa-toolbox"></i> Professional Tools</button>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-badge"><i class="fa-solid fa-circle-check"></i> Completely Free Access</div>
+            <div class="trust-divider"></div>
+            <div class="trust-badge"><i class="fa-solid fa-shield-halved"></i> No Account Required</div>
+            <div class="trust-divider"></div>
+            <div class="trust-badge"><i class="fa-solid fa-bolt"></i> Immediate Full Access</div>
+            <div class="trust-divider"></div>
+            <div class="trust-badge"><i class="fa-solid fa-graduation-cap"></i> 12 Structured Modules</div>
           </div>
           <div class="hero-stats">
             <div class="hs"><strong>12+</strong><span>Academy Modules</span></div>
@@ -111,10 +126,10 @@
         <aside class="home-side">
           <div class="side-intro"><h3>What You Will Learn</h3><p>From complete beginner to professional trader with real examples, live charts, and AI guidance at every step.</p></div>
           <div class="feat-cards">
-            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-chalkboard-teacher"></i></div><div><strong>Interactive Lessons</strong><p>Live charts and real trading scenarios explained step by step.</p></div></div>
-            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-bolt"></i></div><div><strong>Market Insights</strong><p>Price action, liquidity zones, and smart money concepts.</p></div></div>
-            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-robot"></i></div><div><strong>Trading Mindset</strong><p>Discipline, emotional control, risk management, and confidence.</p></div></div>
-            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-toolbox"></i></div><div><strong>Working Tools</strong><p>Position calculators, Fibonacci, session clock, risk analyzer and more.</p></div></div>
+            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-chalkboard-teacher"></i></div><div><strong>Structured Curriculum</strong><p>Institutional-grade concepts delivered through live charts and real-world trade walkthroughs.</p></div></div>
+            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-bolt"></i></div><div><strong>Real-Time Market Intelligence</strong><p>Price action mastery, institutional liquidity dynamics, and Smart Money Concept frameworks.</p></div></div>
+            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-brain"></i></div><div><strong>Professional Trader Mindset</strong><p>Systematic emotional discipline, precision risk protocols, and performance-grade consistency.</p></div></div>
+            <div class="feat-card"><div class="fc-icon"><i class="fa-solid fa-toolbox"></i></div><div><strong>Precision Trading Tools</strong><p>Position sizing engine, Fibonacci analyzer, multi-session clock, and risk-reward calculator.</p></div></div>
           </div>
         </aside>
       </div>
@@ -175,15 +190,15 @@
       </div>
 
       <div class="feat-grid">
-        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-layer-group"></i></div><h4>Structured Learning</h4><ul><li>Market structure mastery</li><li>Smart money concepts (ICT)</li><li>Risk management frameworks</li><li>Psychology &amp; discipline</li></ul></div>
-        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-gauge-high"></i></div><h4>Live Market Tools</h4><ul><li>100+ trading pairs</li><li>Real-time interactive charts</li><li>Instant price alerts</li><li>Economic calendar integration</li></ul></div>
-        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-diagram-project"></i></div><h4>Trading Framework</h4><ul><li>Step-by-step trading plan</li><li>Entry &amp; exit rules</li><li>Journal &amp; tracking habits</li><li>Performance analytics</li></ul></div>
-        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-people-group"></i></div><h4>Community Support</h4><ul><li>Weekly live sessions</li><li>Expert feedback &amp; mentorship</li><li>Trader community forum</li><li>24/7 support channels</li></ul></div>
+        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-layer-group"></i></div><h4>Structured Learning Path</h4><ul><li>Institutional market structure mastery</li><li>Smart Money Concepts (ICT methodology)</li><li>Systematic risk management frameworks</li><li>Performance psychology &amp; discipline</li></ul></div>
+        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-gauge-high"></i></div><h4>Live Market Data Suite</h4><ul><li>100+ live tradable instrument pairs</li><li>Real-time TradingView interactive charts</li><li>Multi-timeframe analysis environment</li><li>Economic calendar &amp; event integration</li></ul></div>
+        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-diagram-project"></i></div><h4>Complete Trading Framework</h4><ul><li>Rule-based trade planning system</li><li>Precision entry &amp; exit criteria</li><li>Trade journaling &amp; performance tracking</li><li>Statistical edge measurement tools</li></ul></div>
+        <div class="fg-card"><div class="fgc-icon"><i class="fa-solid fa-people-group"></i></div><h4>Professional Community</h4><ul><li>Structured weekly live analysis sessions</li><li>Experienced mentor feedback &amp; review</li><li>Active serious-trader discussion forum</li><li>Continuous educational content updates</li></ul></div>
       </div>
       <div class="highlights">
-        <div class="hl-card"><i class="fa-solid fa-star"></i><h4>Premium Academy</h4><p>Structured lessons, community support, and real-time AI-powered market analysis for serious traders.</p></div>
-        <div class="hl-card"><i class="fa-solid fa-chart-line-up"></i><h4>Trading Signals</h4><p>Educational signal examples for crypto, forex, and major market pairs — learn setups by example.</p></div>
-        <div class="hl-card"><i class="fa-solid fa-shield-halved"></i><h4>Risk Control System</h4><p>Practical risk management with our position sizing calculator — protect capital first, always.</p></div>
+        <div class="hl-card"><i class="fa-solid fa-star"></i><h4>Institutional-Grade Curriculum</h4><p>Structured modules, active community mentorship, and real-time market analysis — designed for traders who take performance seriously.</p></div>
+        <div class="hl-card"><i class="fa-solid fa-arrow-trend-up"></i><h4>Educational Trade Examples</h4><p>High-probability setup walkthroughs across crypto, forex, and major indices — learn institutional entry logic through documented examples.</p></div>
+        <div class="hl-card"><i class="fa-solid fa-shield-halved"></i><h4>Advanced Capital Protection</h4><p>Multi-layer risk management discipline with a built-in position sizing engine — capital preservation is the non-negotiable foundation.</p></div>
       </div>
       <div class="soc-bar">
         <a href="https://www.instagram.com/6pand9" target="_blank" rel="noopener" class="soc-a ig"><i class="fa-brands fa-instagram"></i></a>
@@ -199,6 +214,13 @@
       <div class="acad-header">
         <div><span class="sbadge sb-p">Academy</span><h2 style="font-family:var(--font-d);font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:6px;">Trading Academy</h2><p style="color:var(--t3);font-size:.88rem;max-width:520px;line-height:1.65;">Structured learning from Beginner to Advanced. Complete lessons and pass quizzes to master professional trading skills.</p></div>
         <div class="acad-stats"><div class="astat"><strong>3</strong><span>Levels</span></div><div class="astat"><strong>12+</strong><span>Modules</span></div><div class="astat"><strong>50+</strong><span>Lessons</span></div><div class="astat"><strong>Free</strong><span>Full Access</span></div></div>
+        <div class="overall-progress-wrap" id="overallProgressWrap">
+          <div class="overall-progress-label">
+            <span><i class="fa-solid fa-chart-line" style="color:var(--purple2);margin-right:6px;"></i>Your Progress</span>
+            <span id="overallProgressText">0 / 22 modules completed</span>
+          </div>
+          <div class="overall-progress-bar"><div class="overall-progress-fill" id="overallProgressFill" style="width:0%"></div></div>
+        </div>
       </div>
 
       <!-- LEVEL TABS -->
@@ -729,7 +751,7 @@
             </div>
 
             <div class="forex-mistake-card">
-              <h4><i class="fa-solid fa-running"></i> 5. FOMO — Entering After the Move Has Already Happened</h4>
+              <h4><i class="fa-solid fa-person-running"></i> 5. FOMO — Entering After the Move Has Already Happened</h4>
               <p>Seeing EUR/USD rally 100 pips and entering at the top because you're afraid to miss more. You buy when the move is exhausted, your stop is too close (no room left), and price pulls back immediately. FOMO entries almost never work.</p>
               <div class="fix"><i class="fa-solid fa-circle-check" style="margin-right:6px;"></i><strong>Fix:</strong> Write down: "I will wait for my setup. Missing a move is free. Entering badly costs money." There will always be another setup. The market produces new opportunities every single day.</div>
             </div>
@@ -1080,48 +1102,6 @@
       </div>
     </section>
 
-    <!-- ===================== COMMUNITY ===================== -->
-    <section id="page-community" class="page-section">
-      <div class="sec-hdr"><span class="sbadge sb-p">Community</span><h2>Trading Community</h2><p>Connect with fellow PAND Academy traders. Share your analysis, discuss strategies, ask questions, and grow together. Every question helps the community learn.</p></div>
-      <div class="comm-layout">
-        <div>
-          <div class="comm-form">
-            <h3><i class="fa-solid fa-pen" style="margin-right:7px;color:var(--purple2)"></i> Share Your Analysis or Question</h3>
-            <textarea class="comm-ta" id="communityTextarea" placeholder="Share a trade idea, analysis, or question with the community..."></textarea>
-            <button class="btn-post" id="communityPostBtn"><i class="fa-solid fa-paper-plane"></i> Post to Community</button>
-          </div>
-          <div id="communityPosts">
-            <div style="text-align:center;padding:40px 20px;color:var(--t3);font-size:.88rem;border:1px dashed rgba(255,255,255,0.08);border-radius:var(--r16);">
-              <i class="fa-solid fa-comments" style="font-size:2rem;display:block;margin-bottom:12px;color:var(--purple2);opacity:0.5;"></i>
-              <strong style="display:block;margin-bottom:6px;color:var(--t2);">No posts yet</strong>
-              Be the first to share your analysis, strategy, or question with the community.
-            </div>
-          </div>
-        </div>
-        <div class="comm-side">
-          <div class="cside-card">
-            <h3>Community Info</h3>
-            <div class="cstat-grid">
-              <div class="cstat"><strong>PAND</strong><span>Academy</span></div>
-              <div class="cstat"><strong>Open</strong><span>Discussion</span></div>
-              <div class="cstat"><strong>Real</strong><span>Analysis</span></div>
-              <div class="cstat"><strong>Free</strong><span>Access</span></div>
-            </div>
-          </div>
-          <div class="cside-card">
-            <h3>🏆 Leaderboard</h3>
-            <p style="font-size:.82rem;color:var(--t3);line-height:1.65;">Start posting your analysis and questions to appear on the community leaderboard. Active members who contribute quality content will be featured here.</p>
-          </div>
-          <div class="cside-card">
-            <h3>📢 Announcements</h3>
-            <p style="font-size:.82rem;color:var(--t3);margin-bottom:8px;line-height:1.65;">🔥 New ICT lesson added: Order Block Entry Tactics</p>
-            <p style="font-size:.82rem;color:var(--t3);margin-bottom:8px;line-height:1.65;">📊 New module: Complete Risk Management Guide</p>
-            <p style="font-size:.82rem;color:var(--t3);line-height:1.65;">🎯 8 professional trading tools now available in Tools section</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ===================== PROFILE ===================== -->
     <section id="page-profile" class="page-section">
       <div class="profile-hdr">
@@ -1137,9 +1117,8 @@
         </div>
       </div>
       <div class="prof-dash">
-        <div class="pstat-card"><i class="fa-solid fa-graduation-cap"></i><h4>Lessons Completed</h4><strong>0</strong><span>out of 500+</span><div class="pstat-bar"><div class="pstat-fill" style="width:0%"></div></div></div>
+        <div class="pstat-card"><i class="fa-solid fa-graduation-cap"></i><h4>Lessons Completed</h4><strong id="profileLessonsCount">0</strong><span>out of <span id="profileLessonsTotal">22</span> modules</span><div class="pstat-bar"><div class="pstat-fill" id="profileLessonsFill" style="width:0%"></div></div></div>
         <div class="pstat-card"><i class="fa-solid fa-book"></i><h4>Trades Logged</h4><strong>0</strong><span>total trades</span></div>
-        <div class="pstat-card"><i class="fa-solid fa-comments"></i><h4>Community Posts</h4><strong>0</strong><span>contributions</span></div>
         <div class="pstat-card"><i class="fa-solid fa-crown"></i><h4>Account Type</h4><strong>Free</strong><span>Upgrade for premium</span><button class="btn-upg">Upgrade Now</button></div>
       </div>
       <div style="padding:24px;background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r16);">
@@ -1148,7 +1127,6 @@
           <div class="achiev locked"><i class="fa-solid fa-lock"></i><span>First Lesson Completed</span></div>
           <div class="achiev locked"><i class="fa-solid fa-lock"></i><span>10 Trade Journal Entries</span></div>
           <div class="achiev locked"><i class="fa-solid fa-lock"></i><span>Risk Management Master</span></div>
-          <div class="achiev locked"><i class="fa-solid fa-lock"></i><span>Community Contributor</span></div>
           <div class="achiev locked"><i class="fa-solid fa-lock"></i><span>Strategy Creator</span></div>
           <div class="achiev locked"><i class="fa-solid fa-lock"></i><span>Consistent Profitability</span></div>
         </div>
@@ -3570,7 +3548,7 @@
       <div class="footer-grid">
         <div class="footer-col">
           <h4>PAND ACADEMY</h4>
-          <p>Professional trading education platform. Master the markets with structured lessons, live charts, working trading tools, and a community of serious traders.</p>
+          <p>A professional-grade trading education platform delivering structured market knowledge — from foundational concepts to advanced institutional methodology. Built for traders who demand precision.</p>
           <div class="footer-soc">
             <a href="https://www.instagram.com/6pand9" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
             <a href="mailto:tredingpand@gmail.com"><i class="fa-solid fa-envelope"></i></a>
@@ -3594,7 +3572,6 @@
           <h4>Resources</h4>
           <ul>
             <li><a href="#" data-page="tools">Trading Tools</a></li>
-            <li><a href="#" data-page="community">Community</a></li>
             <li><a href="#">Help Center</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">FAQ</a></li>
@@ -3613,8 +3590,15 @@
         </div>
       </div>
       <div class="footer-btm">
+        <div class="footer-btm-trust">
+          <span class="ftrust-item"><i class="fa-solid fa-shield-halved"></i> Education-Only Platform</span>
+          <span class="ftrust-sep">·</span>
+          <span class="ftrust-item"><i class="fa-solid fa-lock"></i> No Financial Advice Provided</span>
+          <span class="ftrust-sep">·</span>
+          <span class="ftrust-item"><i class="fa-solid fa-circle-check"></i> Zero Hidden Fees</span>
+        </div>
         <p>© 2024–2026 PAND Academy. All rights reserved.</p>
-        <p class="footer-disc"><strong>Risk Warning:</strong> Trading involves substantial risk of loss and is not suitable for all investors. All content is for educational purposes only and does not constitute financial advice. Never trade money you cannot afford to lose.</p>
+        <p class="footer-disc"><strong>Risk Disclosure:</strong> Trading financial instruments including forex, derivatives, and cryptocurrencies involves a substantial risk of capital loss and is not appropriate for all investors. Past educational examples do not guarantee future results. All platform content is provided strictly for educational purposes and does not constitute regulated financial advice. Only commit capital you can afford to lose in full.</p>
       </div>
     </div>
   </footer>

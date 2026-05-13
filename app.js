@@ -43,9 +43,6 @@ function cacheDOM() {
   DOM.modalOv = $("#modalOverlay");
   DOM.modalContent = $("#modalContent");
   DOM.modalClose = $("#modalCloseBtn");
-  DOM.commTA = $("#communityTextarea");
-  DOM.commPost = $("#communityPostBtn");
-  DOM.commPosts = $("#communityPosts");
   DOM.themeToggle = $("#themeToggle");
   DOM.toastCont = $("#toastContainer");
   DOM.ticker = $("#topBarTicker");
@@ -94,16 +91,29 @@ function createParticles() {
    SPLASH → LOGIN
 ============================================================ */
 function initSplash() {
+  const alreadyLoggedIn = localStorage.getItem("pand_isLoggedIn") === "true";
   setTimeout(() => {
     if (DOM.splash) {
       DOM.splash.style.transition = "opacity 0.5s ease";
       DOM.splash.style.opacity = "0";
       setTimeout(() => { if (DOM.splash) DOM.splash.remove(); }, 500);
     }
-    if (DOM.loginScreen) {
-      DOM.loginScreen.style.display = "flex";
-      DOM.loginScreen.style.opacity = "0";
-      setTimeout(() => { DOM.loginScreen.style.transition = "opacity 0.4s"; DOM.loginScreen.style.opacity = "1"; }, 10);
+    if (alreadyLoggedIn) {
+      // Skip login screen — go straight to app
+      STATE.logged = true;
+      if (DOM.loginScreen) DOM.loginScreen.style.display = "none";
+      DOM.app.style.display = "block";
+      setTimeout(() => {
+        DOM.app.style.transition = "opacity 0.4s ease";
+        DOM.app.style.opacity = "1";
+        goToPage("home");
+      }, 30);
+    } else {
+      if (DOM.loginScreen) {
+        DOM.loginScreen.style.display = "flex";
+        DOM.loginScreen.style.opacity = "0";
+        setTimeout(() => { DOM.loginScreen.style.transition = "opacity 0.4s"; DOM.loginScreen.style.opacity = "1"; }, 10);
+      }
     }
   }, 2000);
 }
@@ -121,6 +131,8 @@ function doLogin() {
   const p = DOM.passInp.value.trim();
   if (u === "PAND" && p === "PAND") {
     STATE.logged = true;
+    localStorage.setItem("pand_isLoggedIn", "true");
+    localStorage.setItem("pand_user", JSON.stringify({ username: u, loginTime: Date.now() }));
     DOM.loginScreen.style.transition = "opacity 0.35s ease";
     DOM.loginScreen.style.opacity = "0";
     setTimeout(() => {
@@ -139,6 +151,29 @@ function doLogin() {
     DOM.userInp.focus();
   }
 }
+
+function doLogout() {
+  STATE.logged = false;
+  localStorage.removeItem("pand_isLoggedIn");
+  localStorage.removeItem("pand_user");
+  // Fade app out, show login
+  DOM.app.style.transition = "opacity 0.35s ease";
+  DOM.app.style.opacity = "0";
+  setTimeout(() => {
+    DOM.app.style.display = "none";
+    DOM.app.style.opacity = "1";
+    DOM.app.style.transition = "";
+    DOM.loginScreen.style.display = "flex";
+    DOM.loginScreen.style.opacity = "0";
+    setTimeout(() => { DOM.loginScreen.style.transition = "opacity 0.4s"; DOM.loginScreen.style.opacity = "1"; }, 10);
+    // Clear inputs
+    if (DOM.userInp) DOM.userInp.value = "";
+    if (DOM.passInp) DOM.passInp.value = "";
+  }, 370);
+  toast("Logged out successfully.", "info");
+}
+
+window.doLogout = doLogout;
 
 /* ============================================================
    NAVIGATION
@@ -897,34 +932,109 @@ function renderSessionClock() {
 }
 
 /* ============================================================
-   COMMUNITY
+   LEARNING PROGRESS SYSTEM
 ============================================================ */
-function initCommunity() {
-  if (!DOM.commPost || !DOM.commTA || !DOM.commPosts) return;
-  DOM.commPost.addEventListener("click", () => {
-    const text = DOM.commTA.value.trim();
-    if (!text) { toast("Write something first!", "error"); return; }
-    const post = document.createElement("div");
-    post.className = "comm-post";
-    post.innerHTML = `<div class="post-hdr"><div class="post-auth"><i class="fa-solid fa-circle-user"></i><span>You</span></div><span class="post-time">Just now</span></div>
-      <div class="post-body"><p>${text.replace(/</g,"&lt;")}</p></div>
-      <div class="post-acts">
-        <button><i class="fa-solid fa-thumbs-up"></i> 0</button>
-        <button><i class="fa-solid fa-comment"></i> Reply</button>
-        <button><i class="fa-solid fa-share"></i> Share</button>
-      </div>`;
-    DOM.commPosts.insertAdjacentElement("afterbegin", post);
-    DOM.commTA.value = "";
-    toast("Post published to community! 🎉", "success");
-  });
-  DOM.commPosts.addEventListener("click", e => {
-    const btn = e.target.closest(".post-acts button");
-    if (btn && btn.innerHTML.includes("fa-thumbs-up")) {
-      const txt = btn.childNodes[btn.childNodes.length - 1];
-      if (txt) { const n = parseInt(txt.textContent.trim()) || 0; txt.textContent = ` ${n + 1}`; }
+const PROGRESS_KEY = "pand-lesson-progress";
+
+// All module IDs that exist in the academy
+const ALL_MODULES = [
+  "structure","candles","risk","journal","mistakes","technical",
+  "liquidity","patterns","indicators","fundamental","strategies","priceaction",
+  "trendanalysis","breakout","entryexit","scalping","swingtrading",
+  "psychology","sentiment","discipline","capital","tradingplan"
+];
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}"); }
+  catch(e) { return {}; }
+}
+
+function saveProgress(progress) {
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+}
+
+function toggleLessonComplete(moduleId) {
+  const progress = loadProgress();
+  progress[moduleId] = !progress[moduleId];
+  saveProgress(progress);
+  updateProgressUI();
+  refreshAcadCards();
+  return progress[moduleId];
+}
+
+function updateProgressUI() {
+  const progress = loadProgress();
+  const total = ALL_MODULES.length;
+  const completed = ALL_MODULES.filter(id => progress[id]).length;
+  const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+  // Overall progress bar in academy
+  const fill = document.getElementById("overallProgressFill");
+  const text = document.getElementById("overallProgressText");
+  if (fill) fill.style.width = pct + "%";
+  if (text) text.textContent = `${completed} / ${total} modules completed`;
+
+  // Level-specific progress bars
+  const beginnerMods = ["structure","candles","risk","journal","mistakes","technical"];
+  const intermediateMods = ["liquidity","patterns","indicators","fundamental","strategies","priceaction","trendanalysis","breakout","entryexit","scalping","swingtrading"];
+  const advancedMods = ["psychology","sentiment","discipline","capital","tradingplan"];
+
+  function setLevelBar(id, mods) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const done = mods.filter(m => progress[m]).length;
+    el.style.width = mods.length > 0 ? Math.round((done / mods.length) * 100) + "%" : "0%";
+  }
+  setLevelBar("prog-beginner", beginnerMods);
+  setLevelBar("prog-intermediate", intermediateMods);
+  setLevelBar("prog-advanced", advancedMods);
+
+  // Profile page
+  const profileCount = document.getElementById("profileLessonsCount");
+  const profileFill = document.getElementById("profileLessonsFill");
+  if (profileCount) profileCount.textContent = completed;
+  if (profileFill) profileFill.style.width = pct + "%";
+}
+
+function refreshAcadCards() {
+  const progress = loadProgress();
+  document.querySelectorAll(".acad-card[data-module]").forEach(card => {
+    const mod = card.dataset.module;
+    if (progress[mod]) {
+      card.classList.add("lesson-done");
+      if (!card.querySelector(".lesson-check-badge")) {
+        const badge = document.createElement("span");
+        badge.className = "lesson-check-badge";
+        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+        card.appendChild(badge);
+      }
+    } else {
+      card.classList.remove("lesson-done");
+      const badge = card.querySelector(".lesson-check-badge");
+      if (badge) badge.remove();
     }
   });
 }
+
+function buildMarkCompleteBtn(moduleId) {
+  const progress = loadProgress();
+  const done = !!progress[moduleId];
+  return `<button class="mark-complete-btn ${done ? 'is-done' : ''}" id="markCompleteBtn" onclick="window.toggleModuleComplete('${moduleId}')">
+    <i class="fa-solid ${done ? 'fa-circle-check' : 'fa-circle'}"></i>
+    <span>${done ? 'Completed ✔' : 'Mark as Completed'}</span>
+  </button>`;
+}
+
+window.toggleModuleComplete = function(moduleId) {
+  const isDone = toggleLessonComplete(moduleId);
+  const btn = document.getElementById("markCompleteBtn");
+  if (btn) {
+    btn.classList.toggle("is-done", isDone);
+    btn.innerHTML = `<i class="fa-solid ${isDone ? 'fa-circle-check' : 'fa-circle'}"></i><span>${isDone ? 'Completed ✔' : 'Mark as Completed'}</span>`;
+  }
+  toast(isDone ? "Module marked as completed! 🎉" : "Module marked as incomplete.", isDone ? "success" : "info");
+};
+
 
 /* ============================================================
    THEME TOGGLE
@@ -1285,6 +1395,10 @@ window.toast = toast;
    ACADEMY MODULE RENDERER
 ============================================================ */
 function initAcademy() {
+  // Load and display saved progress on startup
+  updateProgressUI();
+  refreshAcadCards();
+
   // Level tab switching
   document.getElementById("levelTabs")?.addEventListener("click", e => {
     const tab = e.target.closest(".lvl-tab");
@@ -1333,6 +1447,13 @@ function initAcademy() {
                 ${c.tip ? `<div style="background:rgba(16,217,160,0.05);border:1px solid rgba(16,217,160,0.18);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.79rem;color:var(--green);line-height:1.6;"><i class="fa-solid fa-circle-check" style="margin-right:5px;"></i>${c.tip}</div>` : ""}
               </div>`).join("")}
           </div>`;
+      }
+      // Inject Mark as Completed button
+      if (DOM.acadInner) {
+        const completeBtnDiv = document.createElement("div");
+        completeBtnDiv.className = "mark-complete-wrap";
+        completeBtnDiv.innerHTML = buildMarkCompleteBtn(mod);
+        DOM.acadInner.appendChild(completeBtnDiv);
       }
       // Render quiz
       const quizEl = document.getElementById("quizSection");
@@ -1693,7 +1814,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initForexPairs();
   initAcademy();
   initTools();
-  initCommunity();
   initTheme();
   initGlobals();
   initScrollTop();
