@@ -5236,3 +5236,173 @@ body.light .acad-card.lesson-done h3 {
 body.light .lesson-check-badge {
   color: #059669;
 }
+
+
+/* ============================================================
+   MOBILE RESPONSIVENESS FIXES — v3 patch
+   Target: screens ≤ 640px (and some ≤ 480px)
+   Rule: never override desktop styles
+============================================================ */
+
+@media (max-width: 640px) {
+
+  /* ── TOPBAR ── */
+  /* Ticker text truncates on tiny screens; allow wrap */
+  .tb-ticker { flex-wrap: wrap; font-size: .73rem; }
+
+  /* ── NAVBAR action buttons — prevent overflow ── */
+  /* Hide text labels on Subscribe/Video Course buttons on small screens */
+  .na-sub span,
+  #navVideoCourseBtn span { display: none; }
+  .nav-acts { gap: 4px; }
+  .na-btn { padding: 7px 9px; font-size: .72rem; min-width: 0; }
+
+  /* ── HERO buttons — stack nicely ── */
+  .hero-btns { flex-direction: column; align-items: stretch; }
+  .hbtn { text-align: center; justify-content: center; }
+
+  /* ── HERO TRUST — single column badges ── */
+  .hero-trust { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* ── LEARNING PATH strip ── */
+  .lp-steps { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lp-step { padding: 12px 8px; }
+  .lp-label { font-size: .72rem; }
+  .lp-desc { font-size: .65rem; }
+
+  /* ── VIDEO COURSE SECTION ── */
+  .vc-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .vc-cta { flex-direction: column; align-items: stretch; gap: 10px; }
+  .vc-cta button { width: 100%; justify-content: center; }
+  .vc-modules { grid-template-columns: 1fr 1fr; }
+
+  /* ── FEAT GRID (home page) ── */
+  .feat-grid { grid-template-columns: 1fr; }
+  .fg-card { padding: 18px; }
+
+  /* ── ACADEMY header ── */
+  .acad-header { flex-direction: column; gap: 14px; }
+  .acad-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .astat { text-align: center; }
+
+  /* ── LEVEL TABS ── */
+  .level-tabs { flex-direction: column; gap: 6px; }
+  .lvl-tab { width: 100%; text-align: left; padding: 10px 14px; }
+
+  /* ── LEVEL BANNER ── */
+  .lvl-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .lvl-banner-icon { align-self: flex-start; }
+
+  /* ── BINARY HEADER stats ── */
+  .binary-hdr { flex-direction: column; }
+  .bstats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .bstat { padding: 10px 12px; }
+
+  /* ── BINARY INFO STRIP ── */
+  .bin-strip { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .bin-info { padding: 14px 12px; }
+
+  /* ── FOREX PAIRS HUB ── */
+  .pair-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pbtn { font-size: .73rem; padding: 7px 10px; }
+
+  /* ── FOREX / BINARY TABS — scrollable row ── */
+  .tabs-nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+  .tab-btn { flex-shrink: 0; }
+
+  /* ── INDICATOR TABS — scrollable ── */
+  .ind-tabs-nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+  .ind-tab { flex-shrink: 0; }
+
+  /* ── INDICATOR hero box ── */
+  .ind-hero { padding: 18px 16px; }
+  .ind-hero > div { flex-wrap: wrap; gap: 6px; }
+
+  /* ── INDICATOR signals — stack on small screens ── */
+  .ind-signals { grid-template-columns: 1fr; overflow: visible; }
+
+  /* ── IND STAT ROW ── */
+  .ind-stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .ind-stat { font-size: .77rem; }
+
+  /* ── PATTERN SVG diagrams — scrollable ── */
+  .pat-svg-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pat-svg-wrap svg { min-width: 320px; }
+
+  /* ── PATTERN card stats row ── */
+  .pc-stat-row { flex-direction: column; gap: 6px; }
+  .pc-header-v2 { flex-direction: column; align-items: flex-start; }
+
+  /* ── PATTERN pc-grid — single col already set but ensure ── */
+  .pc-grid { grid-template-columns: 1fr; }
+
+  /* ── SESSION TIMELINE — single col ── */
+  .session-timeline { grid-template-columns: 1fr; }
+
+  /* ── FOREX INFO GRID — single col ── */
+  .forex-info-grid { grid-template-columns: 1fr; }
+
+  /* ── MARKET CHART height ── */
+  #tv_chart { min-height: 280px; }
+
+  /* ── MARKET PAIR GRID ── */
+  .pair-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .pair-grid button { font-size: .73rem; padding: 7px 8px; }
+
+  /* ── MARKET side panel ── */
+  .mkt-side { display: none; } /* collapsed on mobile — chart is priority */
+
+  /* ── PROFILE header ── */
+  .profile-hdr { flex-direction: column; align-items: center; text-align: center; }
+  .prof-details { justify-content: center; }
+  .prof-dash { grid-template-columns: 1fr; }
+
+  /* ── MODAL ── */
+  .modal-box { margin: 8px; padding: 18px 14px; max-height: 92vh; }
+
+  /* ── FOOTER bottom trust badges ── */
+  .footer-btm-trust { flex-direction: column; align-items: center; gap: 8px; }
+  .ftrust-sep { display: none; }
+
+  /* ── RISK TABLE — ensure horizontal scroll ── */
+  .risk-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
+
+  /* ── CONTENT GRID (forex cards) ── */
+  .content-grid { grid-template-columns: 1fr; }
+
+  /* ── PATH STEPS V ── */
+  .path-step-v { flex-direction: column; }
+
+  /* ── CANDLE QUICK REFERENCE ── */
+  .candle-quick { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+  /* ── INLINE GRIDS that use minmax and may overflow ── */
+  .forex-mistake-card { padding: 16px; }
+  .forex-mistake-card h4 { font-size: .88rem; }
+
+  /* ── BIN PSYCH STAGE ── */
+  .bin-psych-stage { flex-direction: column; }
+
+  /* ── GENERAL touch targets ── */
+  .btn-open, .btn-calc { min-height: 44px; padding: 12px 16px; }
+}
+
+/* ── Extra-small: 380px and below ── */
+@media (max-width: 380px) {
+  .acad-stats { grid-template-columns: repeat(2, 1fr); }
+  .bstats { grid-template-columns: repeat(2, 1fr); }
+  .vc-modules { grid-template-columns: 1fr; }
+  .bin-strip { grid-template-columns: 1fr; }
+  .ind-stat-row { grid-template-columns: 1fr; }
+  .candle-quick { grid-template-columns: repeat(2, 1fr); }
+  .hero-btns .hbtn { font-size: .78rem; padding: 10px 12px; }
+  .nav-inner { padding: 7px 10px; }
+  /* Hide all non-essential nav action buttons on tiny screens */
+  #navContactBtn,
+  #navVideoCourseBtn { display: none; }
+}
+
+/* ── Prevent SVG & wide content from breaking layout ── */
+svg:not(.pat-svg-wrap svg) { max-width: 100%; height: auto; }
+.pat-visual-full { overflow-x: auto; }
+
