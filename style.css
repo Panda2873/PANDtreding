@@ -5406,3 +5406,892 @@ body.light .lesson-check-badge {
 svg:not(.pat-svg-wrap svg) { max-width: 100%; height: auto; }
 .pat-visual-full { overflow-x: auto; }
 
+
+/* ============================================================
+   MOBILE PREMIUM UX — v4 refinement
+   Goal: TradingView / Bybit-level mobile feel
+   Scope: 320px – 768px ONLY  |  Desktop untouched
+============================================================ */
+
+/* ─────────────────────────────────────────────────────────────
+   1. ROOT OVERRIDES — typography scale, spacing, glow reduction
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    /* Tighter hero at mid-range */
+    --fs-hero: clamp(1.75rem, 7.5vw, 2.6rem);
+    /* Reduce glow vars on mobile for cleaner look */
+    --glow-p: 0 0 16px rgba(124,92,252,0.22);
+    --glow-g: 0 0 16px rgba(240,180,41,0.22);
+    --glow-c: 0 0 16px rgba(0,229,255,0.16);
+    --card-glow: 0 0 0 1px rgba(124,92,252,0.1), 0 4px 16px rgba(0,0,0,0.3);
+    --card-glow-hover: 0 0 0 1px rgba(124,92,252,0.2), 0 8px 24px rgba(0,0,0,0.4);
+    /* Spacing scale pulled down 1 step */
+    --space-8: 24px;
+    --space-10: 28px;
+    --space-12: 36px;
+  }
+
+  /* Disable heavy backdrop-blur on all cards to improve scroll performance */
+  .feat-card, .fg-card, .hl-card, .acad-card, .tool-card,
+  .content-card, .pattern-card, .ind-card, .cq-card,
+  .pstat-card, .session-card, .forex-info-card,
+  .bin-strategy-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Reduce expensive card hover transforms — simpler on touch */
+  .fg-card:hover, .hl-card:hover, .tool-card:hover { transform: none; }
+  .acad-card:hover { transform: none; }
+  .feat-card:hover { transform: none; }
+
+  /* Disable hero glow animations on mobile (battery + perf) */
+  .hero::before, .hero::after { animation: none; opacity: .4; }
+  .hero-grid-bg { display: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   2. TOPBAR — slim, single-line, no overflow
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .topbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 14px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+  .tb-ticker {
+    font-size: .7rem;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    gap: 6px;
+  }
+  .tb-ticker span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tb-tags { display: none; } /* Hidden to prevent overflow — nav serves same purpose */
+}
+
+/* ─────────────────────────────────────────────────────────────
+   3. NAVBAR — logo + subscribe + hamburger only on mobile
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-inner {
+    padding: 8px 14px;
+    gap: 8px;
+  }
+  .nav-logo {
+    font-size: .97rem;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+  .nav-logo i { font-size: 1.1rem; }
+  .nav-links { display: none; }
+  .na-ham { display: flex; align-items: center; justify-content: center; padding: 8px; }
+  .nav-acts { gap: 6px; }
+
+  /* Keep only Subscribe + hamburger visible; hide rest */
+  #navVideoCourseBtn,
+  #navContactBtn,
+  button[data-page="profile"],
+  #logoutBtn,
+  #themeToggle {
+    display: none;
+  }
+
+  /* Subscribe pill — compact but legible */
+  .na-sub {
+    padding: 8px 14px;
+    font-size: .74rem;
+    gap: 5px;
+    border-radius: var(--r99);
+  }
+  .na-sub span { display: inline; } /* restore hidden span from earlier patch */
+  .na-sub i { font-size: .8rem; }
+}
+
+/* Mobile drawer — premium fintech style */
+@media (max-width: 768px) {
+  .mob-drawer {
+    width: min(300px, 88vw);
+    padding: 0;
+    border-left: 1px solid rgba(255,255,255,0.07);
+    background: linear-gradient(160deg, var(--bg-2) 0%, var(--bg-1) 100%);
+  }
+  .mob-hd {
+    padding: 18px 18px 14px;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mob-hd span { font-size: .92rem; letter-spacing: -.01em; }
+  .mob-btns {
+    padding: 10px 10px;
+    gap: 2px;
+  }
+  .mob-btns .nbtn {
+    padding: 12px 14px;
+    font-size: .86rem;
+    border-radius: var(--r10);
+    gap: 10px;
+  }
+  .mob-btns .nbtn.active {
+    background: rgba(124,92,252,0.14);
+    color: var(--purple2);
+  }
+  /* Drawer bottom actions */
+  .mob-drawer > div:last-child {
+    padding: 12px 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   4. HERO — clean, compact, premium fintech mobile feel
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .home-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px; }
+
+  .hero {
+    padding: 32px 20px 28px;
+    border-radius: 20px;
+    border: 1px solid rgba(124,92,252,0.2);
+    /* Lighter gradient on mobile */
+    background:
+      radial-gradient(ellipse at 15% 30%, rgba(124,92,252,0.1), transparent 55%),
+      linear-gradient(160deg, #070c1a 0%, #0d1425 100%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  .hero-eyebrow {
+    font-size: .64rem;
+    padding: 5px 12px;
+    letter-spacing: .09em;
+    margin-bottom: 16px;
+    gap: 6px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.65rem, 7.5vw, 2.4rem);
+    line-height: 1.08;
+    letter-spacing: -.025em;
+    margin-bottom: 14px;
+  }
+
+  .hero-desc {
+    font-size: .875rem;
+    line-height: 1.7;
+    margin-bottom: 22px;
+    color: rgba(176,192,220,0.82);
+  }
+
+  /* CTA buttons — full-width stack, 44px tap targets */
+  .hero-btns {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+  .hbtn {
+    justify-content: center;
+    text-align: center;
+    padding: 13px 20px;
+    font-size: .84rem;
+    min-height: 44px;
+    border-radius: var(--r12);
+    gap: 8px;
+  }
+  /* Disable translateY hover on touch */
+  .hbtn:hover { transform: none; }
+  .hbtn:active { transform: scale(.98); }
+
+  /* Trust badges — 2-column grid */
+  .hero-trust {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: var(--r12);
+  }
+  .trust-badge {
+    font-size: .68rem;
+    gap: 5px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  .trust-divider { display: none; }
+
+  /* Stats row — 2x2 grid */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 0;
+  }
+  .hs {
+    padding: 12px 14px;
+    min-width: 0;
+    border-radius: var(--r10);
+    text-align: center;
+    align-items: center;
+  }
+  .hs strong { font-size: 1.55rem; margin-bottom: 2px; }
+  .hs span { font-size: .62rem; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   5. HOME SIDE CARD — hide on mobile (saves space, info is in hero)
+      Show only core "What You'll Learn" section on ≥480px
+───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .home-side { display: none; }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .home-side {
+    padding: 20px;
+    border-radius: var(--r16);
+  }
+  .side-intro { margin-bottom: 14px; }
+  .side-intro h3 { font-size: 1rem; }
+  .feat-card { padding: 12px; gap: 10px; }
+  .fc-icon { width: 36px; height: 36px; font-size: .95rem; flex-shrink: 0; }
+  .feat-card strong { font-size: .82rem; }
+  .feat-card p { font-size: .74rem; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   6. PAGE SECTIONS — consistent mobile padding
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-section { padding: 16px 14px 64px; }
+
+  .sec-hdr {
+    padding: 18px 16px;
+    border-radius: var(--r16);
+    margin-bottom: 18px;
+  }
+  .sec-hdr h2 { font-size: clamp(1.2rem, 5vw, 1.5rem); }
+  .sec-hdr p { font-size: .82rem; line-height: 1.65; }
+
+  /* Section badge — slightly smaller */
+  .sbadge { font-size: .62rem; padding: 3px 10px; margin-bottom: 8px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   7. LEARNING PATH STRIP
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .learning-path-strip {
+    padding: 16px;
+    border-radius: var(--r16);
+    margin-bottom: 20px;
+  }
+  .lp-title { font-size: .88rem; margin-bottom: 14px; gap: 7px; }
+  .lp-steps { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .lp-step { padding: 12px 8px; }
+  .lp-num { width: 30px; height: 30px; font-size: .8rem; margin: 0 auto 8px; }
+  .lp-label { font-size: .71rem; font-weight: 700; }
+  .lp-desc { font-size: .62rem; line-height: 1.4; margin-top: 3px; }
+}
+@media (max-width: 380px) {
+  .lp-steps { grid-template-columns: 1fr; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   8. CANDLESTICK QUICK REFERENCE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .candle-quick { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .cq-card { padding: 12px 10px; border-radius: var(--r12); }
+  .cq-visual { font-size: 1.4rem; }
+  .cq-name { font-size: .72rem; }
+  .cq-sig { font-size: .62rem; padding: 2px 7px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   9. VIDEO COURSE SECTION
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .video-course-section {
+    padding: 20px 16px;
+    border-radius: var(--r16);
+    margin-bottom: 20px;
+  }
+  .vc-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .vc-icon { width: 44px; height: 44px; font-size: 1.15rem; border-radius: var(--r12); }
+  .vc-title { font-size: .97rem; }
+  .vc-subtitle { font-size: .74rem; }
+  .vc-desc { font-size: .8rem; line-height: 1.65; }
+  .vc-modules { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .vc-module { font-size: .76rem; padding: 9px 12px; border-radius: var(--r8); gap: 7px; }
+  .vc-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    border-radius: var(--r12);
+    padding: 14px;
+  }
+  .vc-price-tag { font-size: 1.3rem; }
+  .vc-price-sub { font-size: .72rem; }
+  .btn-buy-course { justify-content: center; min-height: 44px; font-size: .84rem; border-radius: var(--r10); }
+  .vc-free-note { font-size: .74rem; line-height: 1.6; padding: 12px; border-radius: var(--r10); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   10. FEATURE GRIDS (home page)
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .feat-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
+  .fg-card { padding: 18px 16px; border-radius: var(--r14, var(--r12)); }
+  .fg-card h4 { font-size: .87rem; margin-bottom: 8px; }
+  .fg-card li { font-size: .76rem; margin-bottom: 5px; }
+
+  .highlights { grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
+  .hl-card { padding: 18px 16px; border-radius: var(--r14, var(--r12)); }
+  .hl-card h4 { font-size: .87rem; }
+  .hl-card p { font-size: .76rem; }
+  .hl-card i { font-size: 1.45rem; margin-bottom: 8px; }
+
+  /* Social bar */
+  .soc-bar { gap: 10px; padding: 18px 0; justify-content: center; }
+  .soc-a { width: 40px; height: 40px; font-size: 1rem; border-radius: var(--r10); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   11. ACADEMY PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .acad-header {
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 16px;
+    border-radius: var(--r16);
+  }
+  .acad-header h2 { font-size: clamp(1.2rem, 5vw, 1.5rem); }
+  .acad-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+  .astat {
+    padding: 10px 8px;
+    text-align: center;
+    border-radius: var(--r10);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .astat strong { font-size: 1.15rem; display: block; }
+  .astat span { font-size: .6rem; }
+
+  /* Level tabs — scrollable pill row */
+  .level-tabs {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+  .level-tabs::-webkit-scrollbar { display: none; }
+  .lvl-tab {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    font-size: .76rem;
+    white-space: nowrap;
+    border-radius: var(--r10);
+  }
+
+  /* Level banner */
+  .lvl-banner {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 14px 16px;
+    gap: 12px;
+    border-radius: var(--r12);
+    margin-bottom: 16px;
+  }
+  .lvl-banner-icon { width: 40px; height: 40px; font-size: 1.15rem; flex-shrink: 0; border-radius: var(--r10); }
+  .lvl-banner h3 { font-size: .9rem; margin-bottom: 3px; }
+  .lvl-banner p { font-size: .74rem; line-height: 1.5; }
+
+  /* Academy grid */
+  .acad-grid { grid-template-columns: 1fr; gap: 8px; }
+  .acad-card {
+    padding: 16px;
+    border-radius: var(--r12);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .acad-badge {
+    width: 38px; height: 38px;
+    font-size: .95rem;
+    flex-shrink: 0;
+    border-radius: var(--r10);
+  }
+  .acad-card h3 { font-size: .84rem; margin-bottom: 3px; }
+  .acad-card p { font-size: .73rem; line-height: 1.45; margin-bottom: 6px; }
+  .lvl { font-size: .58rem; padding: 2px 7px; }
+  .ag-tag { font-size: .7rem; padding: 5px 12px; border-radius: var(--r8); margin-bottom: 10px; }
+
+  /* Module content view */
+  .back-btn { padding: 8px 16px; font-size: .76rem; margin-bottom: 18px; }
+  .mod-title { font-size: clamp(1.2rem, 5vw, 1.6rem); margin-bottom: 14px; }
+
+  /* Progress bar */
+  .overall-progress-wrap { padding: 14px; border-radius: var(--r12); }
+  .overall-progress-label { font-size: .73rem; }
+}
+@media (max-width: 380px) {
+  .acad-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   12. FOREX PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Indicator strip — horizontal scroll */
+  .indicator-strip {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+  .indicator-strip::-webkit-scrollbar { display: none; }
+  .ind-card {
+    flex-shrink: 0;
+    width: 160px;
+    padding: 12px;
+    border-radius: var(--r10);
+  }
+  .ind-card .ind-name { font-size: .74rem; }
+  .ind-card .ind-use { font-size: .67rem; }
+  .ind-card .ind-sig { font-size: .62rem; padding: 2px 7px; margin-top: 5px; }
+
+  /* Pairs hub */
+  .forex-pairs-hub {
+    padding: 16px;
+    border-radius: var(--r16);
+    margin-bottom: 16px;
+  }
+  .forex-pairs-hub h3 { font-size: .86rem; margin-bottom: 14px; }
+  .pairs-categories { grid-template-columns: 1fr; gap: 14px; }
+  .pair-cat-title { font-size: .72rem; letter-spacing: .06em; margin-bottom: 8px; }
+  .pair-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pbtn { font-size: .72rem; padding: 7px 11px; min-height: 36px; border-radius: var(--r8); }
+
+  /* Pair info box */
+  .pair-info-box {
+    padding: 14px;
+    font-size: .8rem;
+    border-radius: var(--r12);
+    line-height: 1.6;
+  }
+
+  /* Forex tabs — horizontal scroll pills */
+  .tabs-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+    margin-bottom: 16px;
+  }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; padding: 8px 14px; font-size: .74rem; min-height: 36px; border-radius: var(--r10); }
+
+  /* Content cards */
+  .content-grid { grid-template-columns: 1fr; gap: 10px; }
+  .content-card { padding: 16px; border-radius: var(--r12); }
+  .content-card h3 { font-size: .9rem; margin-bottom: 6px; gap: 7px; }
+  .content-card p { font-size: .79rem; line-height: 1.65; }
+  .key-pts { margin-top: 10px; }
+  .key-pts strong { font-size: .76rem; }
+  .key-pts li { font-size: .75rem; margin-bottom: 4px; }
+
+  /* Forex section blocks */
+  .forex-section-block { padding: 16px; border-radius: var(--r14, var(--r12)); margin-top: 16px; }
+  .forex-section-block h3 { font-size: .95rem; margin-bottom: 10px; gap: 7px; }
+  .forex-section-block > p { font-size: .79rem; line-height: 1.65; margin-bottom: 14px; }
+
+  /* Session timeline */
+  .session-timeline { grid-template-columns: 1fr; gap: 10px; }
+  .session-card { padding: 16px; border-radius: var(--r12); }
+  .session-flag { font-size: 1.3rem; margin-bottom: 6px; }
+  .session-name { font-size: .88rem; font-weight: 700; margin-bottom: 4px; }
+  .session-time { font-size: .7rem; padding: 3px 9px; border-radius: var(--r99); display: inline-block; margin-bottom: 10px; }
+  .session-traits { padding-left: 14px; }
+  .session-traits li { font-size: .74rem; margin-bottom: 4px; line-height: 1.45; }
+
+  /* Forex info grid */
+  .forex-info-grid { grid-template-columns: 1fr; gap: 10px; }
+  .forex-info-card { padding: 14px; border-radius: var(--r12); }
+  .forex-info-card h4 { font-size: .84rem; margin-bottom: 6px; gap: 6px; }
+  .forex-info-card p { font-size: .77rem; line-height: 1.6; }
+
+  /* Path steps vertical */
+  .path-steps-v { gap: 0; }
+  .path-step-v { flex-direction: column; gap: 6px; padding: 14px 0; }
+  .path-num-v { width: 34px; height: 34px; font-size: .85rem; flex-shrink: 0; border-radius: 50%; }
+  .path-content-v h4 { font-size: .85rem; margin-bottom: 5px; }
+  .path-content-v p { font-size: .77rem; line-height: 1.6; }
+
+  /* Risk table */
+  .risk-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; border-radius: var(--r10); }
+  .risk-table th, .risk-table td { padding: 9px 12px; font-size: .74rem; }
+
+  /* Forex mistake cards */
+  .forex-mistake-card { padding: 14px; border-radius: var(--r10); margin-bottom: 10px; }
+  .forex-mistake-card h4 { font-size: .84rem; margin-bottom: 6px; gap: 6px; }
+  .forex-mistake-card > p { font-size: .77rem; line-height: 1.6; }
+  .fix { font-size: .77rem; padding: 10px 12px; border-radius: var(--r8); margin-top: 10px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   13. BINARY OPTIONS PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .binary-hdr {
+    flex-direction: column;
+    padding: 18px 16px;
+    gap: 14px;
+    border-radius: var(--r16);
+    margin-bottom: 16px;
+  }
+  .binary-hdr h2 { font-size: clamp(1.2rem, 5vw, 1.5rem); margin-bottom: 6px; }
+  .binary-hdr p { font-size: .79rem; }
+  .bstats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; }
+  .bstat { padding: 10px 12px; border-radius: var(--r10); text-align: center; }
+  .bstat strong { font-size: 1.15rem; }
+  .bstat span { font-size: .62rem; }
+
+  /* Binary info strip */
+  .bin-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+  .bin-info { padding: 13px 10px; border-radius: var(--r10); text-align: center; }
+  .bi-icon { font-size: 1.5rem; margin-bottom: 6px; }
+  .bin-info h4 { font-size: .78rem; margin-bottom: 4px; }
+  .bin-info p { font-size: .68rem; line-height: 1.4; }
+
+  .bin-section-block { padding: 16px; border-radius: var(--r12); }
+  .bin-section-block h3 { font-size: .92rem; margin-bottom: 10px; }
+
+  /* Psych stages */
+  .bin-psych-stage { flex-direction: row; gap: 10px; padding: 12px; border-radius: var(--r10); margin-bottom: 8px; }
+  .bps-num { width: 30px; height: 30px; font-size: .82rem; flex-shrink: 0; border-radius: 50%; }
+  .bps-content h5 { font-size: .82rem; margin-bottom: 4px; }
+  .bps-content p { font-size: .75rem; line-height: 1.55; }
+
+  /* Binary strategy cards */
+  .bin-strategy-card { padding: 14px; border-radius: var(--r10); }
+  .bin-strategy-card h4 { font-size: .82rem; gap: 6px; margin-bottom: 6px; }
+  .bin-strategy-card p { font-size: .75rem; line-height: 1.55; }
+  .bin-entry { font-size: .73rem; padding: 8px 10px; border-radius: var(--r8); margin-top: 8px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   14. MARKET PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .mkt-hdr {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .mkt-hdr h2 { font-size: 1.2rem; }
+  .mkt-hdr p { font-size: .79rem; }
+  .mkt-controls { flex-direction: column; gap: 8px; width: 100%; }
+  .sym-wrap { width: 100%; }
+  .sym-wrap label { font-size: .72rem; }
+  .sym-sel { width: 100%; padding: 9px 12px; font-size: .8rem; border-radius: var(--r10); }
+  .intv-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ibtn { padding: 6px 11px; font-size: .72rem; min-height: 34px; border-radius: var(--r8); }
+  .ibtn.active { border-radius: var(--r8); }
+
+  /* Chart + layout */
+  .mkt-layout { grid-template-columns: 1fr; gap: 12px; }
+  .chart-wrap { border-radius: var(--r16); }
+  #tv_chart { height: 320px !important; min-height: 280px; }
+
+  /* Chart tools */
+  .chart-tools { gap: 6px; padding: 8px 10px; flex-wrap: wrap; }
+  .ct-btn { padding: 6px 11px; font-size: .71rem; min-height: 34px; border-radius: var(--r8); gap: 5px; }
+
+  /* Market side — show as a compact strip below chart */
+  .mkt-side {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .side-panel { padding: 14px; border-radius: var(--r12); }
+  .side-panel h3 { font-size: .82rem; margin-bottom: 10px; gap: 6px; }
+  .watchlist-item { padding: 8px 10px; border-radius: var(--r8); }
+  .wl-sym { font-size: .78rem; }
+  .wl-price { font-size: .78rem; }
+  .wl-ch { font-size: .72rem; }
+  .pair-search { font-size: .8rem; padding: 8px 12px; border-radius: var(--r8); margin-bottom: 8px; }
+  .pair-grid { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .pair-grid button { font-size: .66rem; padding: 6px 4px; min-height: 32px; border-radius: var(--r6, var(--r8)); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   15. TOOLS PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tools-grid { grid-template-columns: 1fr; gap: 10px; }
+  .tool-card { padding: 18px 16px; border-radius: var(--r16); }
+  .tool-icon {
+    width: 44px; height: 44px;
+    font-size: 1.1rem;
+    border-radius: var(--r10);
+    margin-bottom: 12px;
+  }
+  .tool-card h3 { font-size: .88rem; margin-bottom: 5px; }
+  .tool-card p { font-size: .76rem; margin-bottom: 12px; }
+  .btn-open { min-height: 40px; padding: 10px 16px; font-size: .78rem; border-radius: var(--r8); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   16. PATTERNS PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .pat-section { margin-bottom: 24px; }
+  .pat-section-title { font-size: .8rem; padding: 8px 12px; border-radius: var(--r8); margin-bottom: 14px; gap: 7px; }
+
+  .pattern-card { padding: 16px; border-radius: var(--r14, var(--r12)); margin-bottom: 12px; }
+
+  /* Pattern header v1 */
+  .pc-header { gap: 10px; margin-bottom: 12px; }
+  .pc-visual { width: 46px; height: 46px; flex-shrink: 0; border-radius: var(--r10); }
+  .pc-visual svg { width: 32px; height: 32px; }
+  .pc-name { font-size: .97rem; }
+  .pc-type { font-size: .62rem; padding: 2px 9px; }
+
+  /* Pattern header v2 */
+  .pc-header-v2 { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .pc-name-group { gap: 8px; flex-wrap: wrap; }
+  .pc-signal-badge { font-size: .62rem; padding: 3px 9px; }
+  .pc-stat-row { gap: 8px; flex-wrap: wrap; }
+  .pc-stat { font-size: .72rem; }
+
+  /* SVG scrollable */
+  .pat-visual-full {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--r12);
+    padding: 16px 14px 12px !important;
+    margin-bottom: 12px;
+  }
+  .pat-svg-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pat-svg-wrap svg { min-width: 320px; display: block; }
+  .pat-visual-title { font-size: .62rem; letter-spacing: .1em; margin-bottom: 10px; }
+  .pat-visual-legend { gap: 10px; justify-content: flex-start; margin-top: 8px; }
+  .pat-leg-item { font-size: .67rem; gap: 5px; }
+
+  .pc-body { font-size: .79rem; line-height: 1.65; margin-bottom: 10px; }
+  .pc-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 10px; }
+  .pc-box { padding: 12px; border-radius: var(--r10); }
+  .pc-box-title { font-size: .65rem; letter-spacing: .08em; margin-bottom: 6px; }
+  .pc-box li { font-size: .73rem; margin-bottom: 3px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   17. INDICATORS PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hero/intro box */
+  .ind-hero { padding: 16px; border-radius: var(--r14, var(--r12)); margin-bottom: 16px; }
+  .ind-hero > div:first-child { font-size: .86rem; margin-bottom: 7px; }
+  .ind-hero > p { font-size: .78rem; line-height: 1.65; margin-bottom: 10px; }
+  .ind-hero > div:last-child { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ind-hero span[style] { font-size: .67rem !important; padding: 3px 9px !important; }
+
+  /* Tabs — horizontal scroll */
+  .ind-tabs-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 5px;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    scrollbar-width: none;
+  }
+  .ind-tabs-nav::-webkit-scrollbar { display: none; }
+  .ind-tab { flex-shrink: 0; padding: 7px 12px; font-size: .72rem; min-height: 34px; border-radius: var(--r10); }
+  .ind-tab.active { border-radius: var(--r10); }
+
+  /* Full indicator card */
+  .ind-card-full { padding: 16px; border-radius: var(--r12); margin-bottom: 12px; }
+  .ind-card-full h3 { font-size: .92rem; margin-bottom: 8px; }
+  .ind-card-full > p { font-size: .79rem; line-height: 1.7; margin-bottom: 12px; }
+
+  /* Stat row */
+  .ind-stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px; }
+  .ind-stat { padding: 8px 10px; border-radius: var(--r8); font-size: .72rem; }
+  .ind-stat span { font-size: .62rem; }
+  .ind-stat strong { font-size: .78rem; }
+
+  /* How-to sections */
+  .ind-howto { padding: 12px; border-radius: var(--r10); margin-bottom: 10px; }
+  .ind-howto-title { font-size: .72rem; letter-spacing: .05em; margin-bottom: 8px; }
+  .ind-howto li { font-size: .76rem; line-height: 1.6; margin-bottom: 5px; padding-left: 12px; }
+
+  /* Signals */
+  .ind-signals { grid-template-columns: 1fr; gap: 8px; overflow: visible; }
+  .ind-sig-bull, .ind-sig-bear { padding: 12px; border-radius: var(--r10); font-size: .74rem; line-height: 1.6; }
+
+  /* Example & tip */
+  .ind-example { padding: 12px; border-radius: var(--r10); }
+  .ind-example-title { font-size: .65rem; }
+  .ind-example p { font-size: .76rem; line-height: 1.65; }
+  .ind-tip { padding: 11px 12px; font-size: .76rem; line-height: 1.6; border-radius: var(--r10); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   18. PROFILE PAGE
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .profile-hdr {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px;
+    border-radius: var(--r16);
+    gap: 14px;
+  }
+  .prof-av { width: 64px; height: 64px; font-size: 1.6rem; border-radius: 50%; }
+  .prof-name { font-size: 1.1rem; }
+  .prof-username { font-size: .78rem; }
+  .prof-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+    margin-top: 6px;
+  }
+  .pd-item { font-size: .72rem; }
+
+  .prof-dash { grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px; }
+  .pstat-card { padding: 16px; border-radius: var(--r12); }
+  .pstat-card h4 { font-size: .84rem; }
+  .pstat-card strong { font-size: 1.4rem; }
+  .pstat-card span { font-size: .7rem; }
+  .btn-upg { min-height: 38px; font-size: .78rem; padding: 9px 16px; border-radius: var(--r8); }
+
+  /* Achievements */
+  .achiev-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .achiev { padding: 12px; border-radius: var(--r10); font-size: .74rem; gap: 7px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   19. MODALS & TOASTS
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .modal-ov { align-items: flex-end; }
+  .modal-box {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 22px 18px 30px;
+    border-radius: var(--r16) var(--r16) 0 0; /* bottom-sheet style */
+    max-height: 85vh;
+    animation: slideUp .28s ease;
+  }
+  .modal-close { top: 14px; right: 14px; width: 30px; height: 30px; font-size: 1rem; }
+  #toastContainer { bottom: 16px; right: 12px; left: 12px; align-items: stretch; }
+  .toast { min-width: 0; width: 100%; font-size: .79rem; padding: 11px 14px; border-radius: var(--r10); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   20. FOOTER
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .footer-inner { padding: 28px 14px 20px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 22px; margin-bottom: 24px; }
+  .footer-col h4 { font-size: .84rem; margin-bottom: 10px; }
+  .footer-col p { font-size: .74rem; line-height: 1.6; margin-bottom: 10px; }
+  .footer-col ul li { margin-bottom: 6px; }
+  .footer-col ul li a, .footer-col ul li { font-size: .74rem; }
+  .footer-soc { gap: 7px; }
+  .footer-soc a { width: 30px; height: 30px; font-size: .78rem; }
+  .footer-btm { padding-top: 16px; }
+  .footer-btm p { font-size: .7rem; }
+  .footer-disc { font-size: .68rem; line-height: 1.55; }
+  .footer-btm-trust { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 10px; }
+  .ftrust-item { font-size: .7rem; }
+  .ftrust-sep { display: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   21. GLOBAL MOBILE POLISH
+───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Scroll momentum everywhere */
+  * { -webkit-overflow-scrolling: touch; }
+
+  /* Remove expensive hover transforms on touch */
+  @media (hover: none) {
+    .fg-card:hover, .hl-card:hover, .tool-card:hover,
+    .acad-card:hover, .feat-card:hover, .content-card:hover,
+    .pattern-card:hover, .hbtn:hover, .na-btn:hover,
+    .nbtn:hover { transform: none !important; }
+  }
+
+  /* Prevent text selection on interactive elements */
+  .nbtn, .hbtn, .tab-btn, .ind-tab, .lvl-tab, .pbtn,
+  .ibtn, .btn-open, .na-btn { -webkit-user-select: none; user-select: none; }
+
+  /* Prevent iOS tap callout */
+  a, button { -webkit-touch-callout: none; }
+
+  /* Ensure all images are responsive */
+  img { max-width: 100%; height: auto; }
+
+  /* Scrollbar-less overflow containers */
+  .tabs-nav, .ind-tabs-nav, .level-tabs, .indicator-strip {
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar,
+  .ind-tabs-nav::-webkit-scrollbar,
+  .level-tabs::-webkit-scrollbar,
+  .indicator-strip::-webkit-scrollbar { display: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   22. VERY SMALL SCREENS — 320px fallback
+───────────────────────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .hero h1 { font-size: 1.5rem; }
+  .hero { padding: 22px 14px 20px; }
+  .hbtn { font-size: .78rem; padding: 11px 14px; }
+  .hero-trust { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hs strong { font-size: 1.35rem; }
+  .nav-inner { padding: 7px 10px; }
+  .nav-logo { font-size: .88rem; }
+  .page-section { padding: 12px 10px 60px; }
+  .acad-stats { grid-template-columns: repeat(2, 1fr); }
+  .bstats { grid-template-columns: repeat(2, 1fr); }
+  .bin-strip { grid-template-columns: 1fr; }
+  .pair-grid { grid-template-columns: repeat(2, 1fr); }
+  .vc-modules { grid-template-columns: 1fr; }
+  .tool-card { padding: 14px 12px; }
+  .ind-stat-row { grid-template-columns: 1fr; }
+  .achiev-grid { grid-template-columns: 1fr; }
+}
+
