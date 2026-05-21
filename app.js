@@ -129,7 +129,7 @@ function initLogin() {
 function doLogin() {
   const u = DOM.userInp.value.trim();
   const p = DOM.passInp.value.trim();
-  if (u === "PAND" && p === "PAND") {
+  if (u === "YAZtreding" && p === "YAZtreding") {
     STATE.logged = true;
     localStorage.setItem("pand_isLoggedIn", "true");
     localStorage.setItem("pand_user", JSON.stringify({ username: u, loginTime: Date.now() }));
@@ -146,7 +146,7 @@ function doLogin() {
     }, 380);
     toast("Welcome back, Trader! 🚀", "success");
   } else {
-    toast("Invalid credentials. Use PAND / PAND", "error");
+    toast("Invalid credentials. Use YAZtreding / YAZtreding", "error");
     DOM.passInp.value = "";
     DOM.userInp.focus();
   }
@@ -1069,7 +1069,7 @@ function initGlobals() {
     toast("Premium subscription coming soon! Contact: tredingpand@gmail.com", "info");
   });
   if (DOM.contactBtn) DOM.contactBtn.addEventListener("click", () => {
-    window.location.href = "mailto:tredingpand@gmail.com?subject=PAND Academy Contact";
+    window.location.href = "mailto:tredingpand@gmail.com?subject=YAZtreding Academy Contact";
   });
   const tickers = [
     "Live Trading Dashboard • 100+ Pairs • 24/7 Market Updates",

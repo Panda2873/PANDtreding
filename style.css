@@ -1,5 +1,5 @@
 /* ============================================================
-   PAND ACADEMY v5 — Enhanced Professional Trading Education
+   YAZtreding ACADEMY v5 — Enhanced Professional Trading Education
    Full redesign with preserved content + educational upgrades
 ============================================================ */
 :root {
@@ -950,7 +950,7 @@ img { max-width:100%; }
 .pc-stat { padding:6px 12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:var(--r8); font-size:.76rem; color:var(--t3); }
 .pc-stat strong { color:var(--t2); }
 
-/* ── FOREX EXPANDED SECTIONS ── */
+/* ── FOREX EXYAZtredingED SECTIONS ── */
 .forex-section-block { background:var(--bg-card); border:1px solid rgba(255,255,255,0.07); border-radius:var(--r24); padding:28px; margin-bottom:22px; }
 .forex-section-block h3 { font-family:var(--font-d); font-size:1.15rem; font-weight:800; color:#fff; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
 .forex-section-block h3 i { color:var(--purple2); }
@@ -995,7 +995,7 @@ img { max-width:100%; }
 .forex-mistake-card p { font-size:.81rem; color:var(--t2); line-height:1.65; margin-bottom:8px; }
 .forex-mistake-card .fix { background:rgba(15,214,160,0.06); border:1px solid rgba(15,214,160,0.2); border-radius:var(--r8); padding:10px 12px; font-size:.78rem; color:var(--green); line-height:1.6; }
 
-/* ── BINARY EXPANDED SECTIONS ── */
+/* ── BINARY EXYAZtredingED SECTIONS ── */
 .bin-section-block { background:var(--bg-card); border:1px solid rgba(240,180,41,0.1); border-radius:var(--r24); padding:28px; margin-bottom:22px; }
 .bin-section-block h3 { font-family:var(--font-d); font-size:1.1rem; font-weight:800; color:#fff; margin-bottom:14px; display:flex; align-items:center; gap:9px; }
 .bin-section-block h3 i { color:var(--gold); }
